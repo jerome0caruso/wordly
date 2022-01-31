@@ -57,8 +57,8 @@ allBtns.forEach((element,index) => {
     const inputWordArrayCopy = inputWord.map(a => ({...a}))
     const inputWordArray = inputWordArrayCopy.map(obj => obj.letter)
     console.log(inputWordArray)
-    wordToMatchArray.map((letter, index) => {
-        console.log(letter)
+    inputWordArray.map((letter, index) => {
+        console.log(letter, "whgaa")
         letter = letter.toLowerCase()
         const indexOfWord = wordToMatchArray.indexOf(letter);
         const indexOfInput = inputWordArray.indexOf(letter);
