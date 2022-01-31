@@ -44,29 +44,60 @@ allBtns.forEach((element,index) => {
   function findRows(start, end) {
       const buildSentance = [];
     for(let i = start; i < end; i++){
-        buildSentance.push(allInputs[i])
+        buildSentance.push({
+           input: i + 1,
+           letter: allInputs[i].value.toLowerCase()
+        })
     }
-    gameLogic(randomWord, buildSentance)
+    gameLogic(randomWord[0], buildSentance)
   }
 
   function gameLogic(wordToMatch, inputWord) {
-      const inputValue = inputWord.value
-      inputValue.map(letter => {
-          const indexOfWord = wordToMatch[0].indexOf(letter);
-          const indexOfInput = letter.value.indexOf(letter);
-          console.log(indexOfWord, indexOfInput)
-          if(indexOfWord === -1) {
-            //   turn input grey
-            console.log("grey")
-            letter.style.backgroundColor = 'grey'; 
-          }
-          else if(indexOfWord === indexOfInput) {
-              console.log("green")
-              letter.style.backgroundColor = 'green';
-          }
-          else {
-              letter.style.backgroundColor = 'yellow';
-          }
-      })
-    
+    const wordToMatchArray = [...wordToMatch];
+    const inputWordArrayCopy = inputWord.map(a => ({...a}))
+    const inputWordArray = inputWordArrayCopy.map(obj => obj.letter)
+    console.log(inputWordArray)
+    wordToMatchArray.map((letter, index) => {
+        console.log(letter)
+        letter = letter.toLowerCase()
+        const indexOfWord = wordToMatchArray.indexOf(letter);
+        const indexOfInput = inputWordArray.indexOf(letter);
+        console.log(wordToMatchArray, inputWordArray)
+        if(indexOfInput !== indexOfWord && indexOfInput !== -1 && indexOfWord !== -1) {
+            inputWordArray.splice(indexOfInput, 1, 0)
+            wordToMatchArray.splice(indexOfWord, 1, 0)
+            console.log("go yellow")
+
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'yellow';
+        } 
+        else if (indexOfInput === indexOfWord && indexOfInput !== -1 && indexOfWord !== -1) {
+            inputWordArray.splice(indexOfInput, 1, 1)
+            wordToMatchArray.splice(indexOfWord, 1, 1)
+            console.log("go green")
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'green';
+        } else {
+            // go grey
+            console.log("go greY")
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'grey';
+        }
+        
+        console.log(indexOfWord, indexOfInput)
+        
+        
+        console.log(wordToMatchArray, inputWordArray, "After")
+        
+    })
+
   }
+
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+        input.addEventListener("keyup", (e) => {
+            if(e.target.value.length === e.target.maxLength && input.id < 30) {
+                document.getElementById(Number(input.id)+ 1).focus()
+            }
+        })
+  })
