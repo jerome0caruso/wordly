@@ -13,9 +13,10 @@ body {
     background-color: black;
 }
 .container {
-    width: 350px;
+    width: 440px;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 1rem;
 }
 .input {
     width: 4rem;
@@ -28,13 +29,32 @@ body {
 }
 @media only screen and (max-width: 768px) {
     .input {
-        width: 3rem;
-        height: 3rem;
+        width: 3.2rem;
+        height: 3.2rem;
         border-radius: 10%;
         padding: .7rem;
         font-size: 40px;
         text-transform: uppercase;
         text-align: center;
+    }
+    .container {
+        width: 350px;
+        margin-left: .2rem;
+    }
+
+}
+@media only screen and (max-width: 321px) {
+    .input {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 10%;
+        padding: .7rem;
+        font-size: 40px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .container {
+        width: 350px;
     }
 
 }
