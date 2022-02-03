@@ -13,7 +13,7 @@ body {
     background-color: black;
 }
 .container {
-    width: 400px;
+    width: 350px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -25,6 +25,18 @@ body {
     font-size: 40px;
     text-transform: uppercase;
     text-align: center;
+}
+@media only screen and (max-width: 768px) {
+    .input {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 10%;
+        padding: .7rem;
+        font-size: 40px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
 }
 .input-container {
     display: flex;
