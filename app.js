@@ -8,7 +8,7 @@ function getRanWord (){
         randomWord = randomWords({exactly: 1, maxLength: 5});
         console.log(randomWord)
     }
-    console.log(randomWord, "here");
+    console.log(randomWord, "cheat much...");
 }
 getRanWord();
 
@@ -52,45 +52,77 @@ allBtns.forEach((element,index) => {
     gameLogic(randomWord[0], buildSentance)
   }
 
-  function gameLogic(wordToMatch, inputWord) {
-    const wordToMatchArray = [...wordToMatch];
-    const inputWordArrayCopy = inputWord.map(a => ({...a}))
-    const inputWordArray = inputWordArrayCopy.map(obj => obj.letter)
-    console.log(inputWordArray)
-    inputWordArray.map((letter, index) => {
-        console.log(letter, "whgaa")
-        letter = letter.toLowerCase()
-        const indexOfWord = wordToMatchArray.indexOf(letter);
-        const indexOfInput = inputWordArray.indexOf(letter);
-        console.log(wordToMatchArray, inputWordArray)
+  function changeInputColors(wordToMatchArray, inputWordArray, letter, index, inputWord) {
+    let indexOfWord = null;
+    let indexOfInput = null;
+    const regex = new RegExp(letter, "g");
+    const howManyLettersInArray = wordToMatchArray.join("").match(regex);
+    if(howManyLettersInArray !== null && howManyLettersInArray.length >1) {
+        const getMultipleIndexs = wordToMatchArray.map((l,i) => {
+            if(l === letter) return i 
+        }).filter(l => l !== undefined)
+        indexOfWord = getMultipleIndexs;
+        indexOfInput = inputWordArray.indexOf(letter);
+    } else {
+        indexOfWord = wordToMatchArray.indexOf(letter);
+        indexOfInput = inputWordArray.indexOf(letter);
+    }
+    if(indexOfWord.length > 1) {
+        if((indexOfInput !== indexOfWord[0] && indexOfInput !== indexOfWord[1]) && indexOfInput !== -1 && indexOfWord !== -1) {
+            inputWordArray.splice(indexOfInput, 1, 0)
+            wordToMatchArray.splice(indexOfWord, 1, 0)
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'yellow';
+        } 
+        else if (indexOfInput === indexOfWord[0] && indexOfInput !== -1 && indexOfWord !== -1) {
+            inputWordArray.splice(indexOfInput, 1, 1)
+            wordToMatchArray.splice(indexOfWord[0], 1, 1)
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'green';
+        }         
+        else if ( indexOfInput === indexOfWord[1] && indexOfInput !== -1 && indexOfWord !== -1) {
+            inputWordArray.splice(indexOfInput, 1, 1)
+            wordToMatchArray.splice(indexOfWord[1], 1, 1)
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'green';
+        }
+        else {
+            const input = document.querySelector(`.in${inputWord[index].input}`);
+            input.style.backgroundColor = 'grey';
+        }
+    } else {
         if(indexOfInput !== indexOfWord && indexOfInput !== -1 && indexOfWord !== -1) {
             inputWordArray.splice(indexOfInput, 1, 0)
             wordToMatchArray.splice(indexOfWord, 1, 0)
-            console.log("go yellow")
-
+    
             const input = document.querySelector(`.in${inputWord[index].input}`);
             input.style.backgroundColor = 'yellow';
         } 
         else if (indexOfInput === indexOfWord && indexOfInput !== -1 && indexOfWord !== -1) {
             inputWordArray.splice(indexOfInput, 1, 1)
             wordToMatchArray.splice(indexOfWord, 1, 1)
-            console.log("go green")
             const input = document.querySelector(`.in${inputWord[index].input}`);
             input.style.backgroundColor = 'green';
-        } else {
-            // go grey
-            console.log("go greY")
+        }
+        else {
             const input = document.querySelector(`.in${inputWord[index].input}`);
             input.style.backgroundColor = 'grey';
         }
-        
-        console.log(indexOfWord, indexOfInput)
-        
-        
-        console.log(wordToMatchArray, inputWordArray, "After")
-        
-    })
+    }
+  }
 
+  function gameLogic(wordToMatch, inputWord) {
+    if(inputWord[0].letter.length < 1){
+        alert("Enter a letter at the beginning!")
+        return
+    } 
+    const wordToMatchArray = [...wordToMatch];
+    const inputWordArrayCopy = inputWord.map(a => ({...a}))
+    const inputWordArray = inputWordArrayCopy.map(obj => obj.letter)
+    inputWordArray.map((letter, index) => {
+        letter = letter.toLowerCase()
+        changeInputColors(wordToMatchArray, inputWordArray, letter, index, inputWord)
+    })
   }
 
   const inputs = document.querySelectorAll('input');
